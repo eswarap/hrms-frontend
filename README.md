@@ -46,12 +46,6 @@ Make sure you have the following installed:
 2. API Integration
 
    GET http://localhost:8080/api/v1/hrms
-
-### Contributing Guidelines
-    Contributions are welcome! Please follow these steps:
-    Fork the repository.
-    Create a new branch for your feature.
-    Submit a pull request with your changes.
 #### License
     This project is licensed under the MIT License.
 #### Acknowledgments
