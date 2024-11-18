@@ -1,12 +1,12 @@
 <template>
-  <div>
   <div class="table_container">
-      <h1 class="text-center">Employee List</h1>
+      <h3 class="text-center">Employee List</h3>
           <b-form-input
             v-model="filter"
             type="search"
             placeholder="Type to filter data"
-            class="mb-3"
+            class="w-25 mx-auto"
+            @input="onFiltered"
           ></b-form-input>
 
           <b-table
@@ -18,6 +18,7 @@
             @filtered="onFiltered"
             striped
             hover
+             class="w-75 mx-auto"
           ></b-table>
 
           <b-pagination
@@ -25,10 +26,9 @@
             :total-rows="rows"
             :per-page="perPage"
             aria-controls="employee-table"
+            class="w-75 mx-auto"
           ></b-pagination>
-  
-          </div>
-        </div>        
+        </div>
   </template>
   
   <script>
@@ -63,7 +63,12 @@
           const filtered = this.employees.filter(employee => {
             return (
               (!this.filter || employee.firstName.toLowerCase().includes(this.filter.toLowerCase())) ||
-              (employee.lastName.toLowerCase().includes(this.filter.toLowerCase()))
+              (employee.lastName.toLowerCase().includes(this.filter.toLowerCase()))||
+              (employee.gender.toLowerCase().includes(this.filter.toLowerCase()))||
+              (employee.birthDate.toLowerCase().includes(this.filter.toLowerCase()))||
+              (employee.joiningDate.toLowerCase().includes(this.filter.toLowerCase()))||
+              (employee.email.toLowerCase().includes(this.filter.toLowerCase()))||
+              (employee.position.toLowerCase().includes(this.filter.toLowerCase()))
             );
           });
           //this.rows = filtered.length; // Update total rows based on filter
@@ -92,7 +97,7 @@
       },
       formatDate(dateString) {
           const options = {  day: 'numeric', month: 'long', year: 'numeric' };
-          return new Date(dateString).toLocaleDateString('en-US', options);
+          return new Date(dateString).toLocaleDateString('en-IN', options);
        },
        onFiltered(filteredItems) {
          this.rows = filteredItems.length; // Update the row count after filtering
@@ -132,11 +137,11 @@
 }
 
 .table-container {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
+  width: 50%;
   margin-left: auto;
   margin-right: auto;
 }
