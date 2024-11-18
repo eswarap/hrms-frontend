@@ -1,16 +1,44 @@
 <template>
   <div id="app">
-  <EmployeeList></EmployeeList>
-</div>
+    <nav v-if="currentUser">
+      <b-navbar type="dark" variant="dark">
+        <b-navbar-brand href="#">HRMS</b-navbar-brand>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item @click="logout">Logout</b-nav-item>
+        </b-navbar-nav>
+      </b-navbar>
+    </nav>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-import EmployeeList from './components/EmployeeList.vue';
+import AuthService from './services/AuthService';
 
 export default {
   name: 'App',
-  components: {
-    EmployeeList
+  data() {
+    return {
+      currentUser: null
+    };
+  },
+  methods: {
+    async logout() {
+      try {
+        await AuthService.logout();
+        localStorage.removeItem('user');
+        this.currentUser = null;
+        this.$router.push('/login');
+      } catch (error) {
+        console.error('Logout failed:', error);
+      }
+    }
+  },
+  created() {
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.currentUser = JSON.parse(user);
+    }
   }
 };
 

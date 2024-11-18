@@ -1,5 +1,6 @@
 <template>
   <div>
+  <div class="table_container">
       <h1 class="text-center">Employee List</h1>
           <b-form-input
             v-model="filter"
@@ -25,36 +26,9 @@
             :per-page="perPage"
             aria-controls="employee-table"
           ></b-pagination>
+  
           </div>
-    <div class="table-container">
-
-      <table class="centered-table">
-        <thead>
-          <tr>
-             <th><input type="checkbox" @change="toggleSelectAll" :checked="isAllSelected" /></th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Gender</th>
-            <th>Position</th>
-            <th>Date of Birth</th>
-            <th>Date of Joining</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="employee in employees" :key="employee.id">
-            <td><input type="checkbox" v-model="selectedEmployees" :value="employee.id" /></td>
-            <td>{{ employee.firstName }}</td>
-            <td>{{ employee.lastName }}</td>
-            <td>{{ employee.gender }}</td>
-            <td>{{ employee.position }}</td>
-            <td>{{ formatDate(employee.birthDate) }}</td>
-            <td>{{ formatDate(employee.joiningDate) }}</td>
-            <td>{{ employee.email }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        </div>        
   </template>
   
   <script>
@@ -67,11 +41,11 @@
         selectedEmployees: [],
           fields: [
              { key: 'id', label: 'ID', sortable: true },
-             { key: 'first_name', label: 'First Name', sortable: true },
-             { key: 'last_name', label: 'Last Name', sortable: true },
+             { key: 'firstName', label: 'First Name', sortable: true },
+             { key: 'lastName', label: 'Last Name', sortable: true },
              { key: 'gender', label: 'Gender', sortable: true },
-             { key: 'birth_date', label: 'Birth Date', sortable: true },
-             { key: 'joining_date', label: 'Joining Date', sortable: true },
+             { key: 'birthDate', label: 'Birth Date', sortable: true, formatter: (value) => this.formatDate(value) },
+             { key: 'joiningDate', label: 'Joining Date', sortable: true, formatter: (value) => this.formatDate(value) },
              { key: 'email', label: 'Email', sortable: true },
              { key: 'position', label: 'Position', sortable: true }
            ],
@@ -88,8 +62,8 @@
         filteredEmployees() {
           const filtered = this.employees.filter(employee => {
             return (
-              (!this.filter || employee.first_name.toLowerCase().includes(this.filter.toLowerCase())) ||
-              (employee.last_name.toLowerCase().includes(this.filter.toLowerCase()))
+              (!this.filter || employee.firstName.toLowerCase().includes(this.filter.toLowerCase())) ||
+              (employee.lastName.toLowerCase().includes(this.filter.toLowerCase()))
             );
           });
           //this.rows = filtered.length; // Update total rows based on filter
@@ -117,8 +91,8 @@
         return this.employees.find(emp => emp.id === id);
       },
       formatDate(dateString) {
-          const options = { year: 'numeric', month: 'long', day: 'numeric' };
-          return new Date(dateString).toLocaleDateString(undefined, options);
+          const options = {  day: 'numeric', month: 'long', year: 'numeric' };
+          return new Date(dateString).toLocaleDateString('en-US', options);
        },
        onFiltered(filteredItems) {
          this.rows = filteredItems.length; // Update the row count after filtering
@@ -159,5 +133,11 @@
 
 .table-container {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
