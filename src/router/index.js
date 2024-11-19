@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Login from '../components/UserLogin.vue';
+import UserLogin from '../components/UserLogin.vue';
 import EmployeeList from '../components/EmployeeList.vue';
 
 const routes = [
   {
     path: '/login',
-    component: Login // Using UserLogin component
+    component: UserLogin // Using UserLogin component
   },
   {
     path: '/employees',
